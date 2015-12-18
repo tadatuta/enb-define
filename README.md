@@ -2,9 +2,9 @@ enb-define
 ======
 
 [![NPM version](https://img.shields.io/npm/v/enb-define.svg?style=flat)](https://www.npmjs.org/package/enb-define)
-[![Build Status](https://img.shields.io/travis/enb-make/enb-define/master.svg?style=flat&label=tests)](https://travis-ci.org/enb-make/enb-define)
-[![Coverage Status](https://img.shields.io/coveralls/enb-make/enb-define.svg?style=flat)](https://coveralls.io/r/enb-make/enb-define?branch=master)
-[![Dependency Status](https://img.shields.io/david/enb-make/enb-define.svg?style=flat)](https://david-dm.org/enb-make/enb-define)
+[![Build Status](https://img.shields.io/travis/tadatuta/enb-define/master.svg?style=flat&label=tests)](https://travis-ci.org/tadatuta/enb-define)
+[![Coverage Status](https://img.shields.io/coveralls/tadatuta/enb-define.svg?style=flat)](https://coveralls.io/r/tadatuta/enb-define?branch=master)
+[![Dependency Status](https://img.shields.io/david/tadatuta/enb-define.svg?style=flat)](https://david-dm.org/tadatuta/enb-define)
 
 Пакет предоставляет [ENB](https://ru.bem.info/tools/bem/enb-bem/)-технологию для сборки, заменяющую плейсхолдеры вида `%%%SOME_VARIABLE_NAME%%%` на переданное значение.
 
