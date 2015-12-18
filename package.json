@@ -2,7 +2,7 @@
   "author": "Vladimir Grinenko <i@tadatuta.com>",
   "description": "Webpack DefinePlugin for ENB",
   "name": "enb-define",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "repository": "git://github.com/tadatuta/enb-define",
   "homepage": "https://github.com/tadatuta/enb-define",
   "bugs": "https://github.com/tadatuta/enb-define/issues",
