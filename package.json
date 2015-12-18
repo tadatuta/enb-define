@@ -1,0 +1,44 @@
+{
+  "author": "Vladimir Grinenko <i@tadatuta.com>",
+  "description": "Webpack DefinePlugin for ENB",
+  "name": "enb-define",
+  "version": "1.0.0",
+  "repository": "git://github.com/tadatuta/enb-define",
+  "homepage": "https://github.com/tadatuta/enb-define",
+  "bugs": "https://github.com/tadatuta/enb-define/issues",
+  "licenses": [
+    {
+      "type": "MPL-2.0",
+      "url": "https://github.com/tadatuta/enb-define/blob/master/LICENSE.txt"
+    }
+  ],
+  "engines": {
+    "node": ">= 0.8.0"
+  },
+  "peerDependencies": {
+    "enb": ">= 0.15.0 <2.0.0"
+  },
+  "dependencies": {
+    "enb-source-map": "1.8.0",
+    "vow": "0.4.10"
+  },
+  "devDependencies": {
+    "chai": "3.2.0",
+    "chai-as-promised": "5.1.0",
+    "chai-string": "1.1.2",
+    "enb": ">= 0.15.0 <2.0.0",
+    "istanbul": "0.3.20",
+    "jscs": "1.13.1",
+    "jshint": "2.8.0",
+    "mocha": "2.3.2",
+    "mock-enb": "0.3.0",
+    "mock-fs": "^3.5.0"
+  },
+  "scripts": {
+    "test": "npm run lint && npm run unit",
+    "lint": "jshint . && jscs -c .jscs.js .",
+    "unit": "mocha -R spec",
+    "cover": "istanbul cover _mocha",
+    "coveralls": "npm i coveralls && npm run cover -- --report lcovonly && cat ./coverage/lcov.info | coveralls"
+  }
+}
