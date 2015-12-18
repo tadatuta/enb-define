@@ -1,37 +1,25 @@
-var vow = require('vow'),
-    enb = require('enb'),
+var enb = require('enb'),
     buildFlow = enb.buildFlow || require('enb/lib/build-flow'),
-    vfs = enb.asyncFS || require('enb/lib/fs/async-fs'),
     File = require('enb-source-map/lib/file');
 
 module.exports = buildFlow.create()
     .name('define')
     .target('target', '?.js')
     .defineRequiredOption('target')
-    .defineRequiredOption('sources')
+    .defineRequiredOption('source')
     .defineOption('variables', {})
-    .defineOption('divider', '\n')
     .defineOption('sourcemap', false)
-    .useSourceListFilenames('sources')
-    .builder(function (sources) {
-        var divider = this._divider,
-            sourcemap = this._sourcemap,
+    .useSourceText('source')
+    .builder(function (source) {
+        var sourcemap = this._sourcemap,
+            fileName = this._source,
             target = this._target,
-            variables = this._variables;
+            variables = this._variables,
+            replacedSource = replacePlaceholder(source, variables);
 
-        return vow.all(sources.map(function (sourceFilename) {
-            return vfs.read(sourceFilename, 'utf8');
-        })).then(function (sourcesContent) {
-            if (!sourcemap) {
-                return sourcesContent
-                    .map(function (sourceContent) {
-                        return replacePlaceholder(sourceContent, variables);
-                    })
-                    .join(divider);
-            }
-
-            return joinWithSourceMaps(sources, sourcesContent, divider, target, variables);
-        });
+        return sourcemap ?
+            renderWithSourceMaps(fileName, replacedSource, target) :
+            replacedSource;
     })
     .createTech();
 
@@ -45,13 +33,9 @@ function replacePlaceholder(source, variables) {
     });
 }
 
-function joinWithSourceMaps(fileNames, contents, divider, target, variables) {
+function renderWithSourceMaps(fileName, content, target) {
     var targetFile = new File(target, { sourceMap: true, comment: 'block' });
 
-    fileNames.forEach(function (file, i) {
-        targetFile.writeFileContent(file, replacePlaceholder(contents[i], variables));
-        targetFile.write(divider);
-    });
-
+    targetFile.writeFileContent(fileName, content);
     return targetFile.render();
 }

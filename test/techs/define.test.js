@@ -19,7 +19,7 @@ describe('define', function () {
             reference = "console.log('hello');";
 
         return build(bundle, {
-            sources: ['?.pre.js'],
+            source: '?.pre.js',
             target: 'js',
             variables: {
                 blah: 'hello'
@@ -33,7 +33,7 @@ describe('define', function () {
         var bundle = { 'bundle.pre.js': "console.log('%%%blah%%%');" };
 
         return build(bundle, {
-            sources: ['?.pre.js'],
+            source: '?.pre.js',
             target: 'js',
             variables: {
                 blah: 'hello'
