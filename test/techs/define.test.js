@@ -29,6 +29,22 @@ describe('define', function () {
         });
     });
 
+    it('must support custom placeholders', function () {
+        var bundle = { 'bundle.pre.js': "console.log('___blah$$$');" },
+            reference = "console.log('hello');";
+
+        return build(bundle, {
+            source: '?.pre.js',
+            target: 'js',
+            placeholder: { before: '___', after: '$$$' },
+            variables: {
+                blah: 'hello'
+            }
+        }).spread(function (content) {
+            content.should.be.equal(reference);
+        });
+    });
+
     it('must generate sourcemap', function () {
         var bundle = { 'bundle.pre.js': "console.log('%%%blah%%%');" };
 
