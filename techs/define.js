@@ -9,13 +9,19 @@ module.exports = buildFlow.create()
     .defineRequiredOption('source')
     .defineOption('variables', {})
     .defineOption('sourcemap', false)
+    .defineOption('placeholder', '%%%')
     .useSourceText('source')
     .builder(function (source) {
         var sourcemap = this._sourcemap,
             fileName = this._source,
             target = this._target,
             variables = this._variables,
-            replacedSource = replacePlaceholder(source, variables);
+            placeholder = typeof this._placeholder === 'string' ?
+                { before: this._placeholder, after: this._placeholder } :
+                this._placeholder,
+            placeholderRegExp = new RegExp(regExpEscape(placeholder.before) + '(.*?)' +
+                regExpEscape(placeholder.after), 'g'),
+            replacedSource = replacePlaceholder(source, variables, placeholderRegExp);
 
         return sourcemap ?
             renderWithSourceMaps(fileName, replacedSource, target) :
@@ -23,8 +29,13 @@ module.exports = buildFlow.create()
     })
     .createTech();
 
-function replacePlaceholder(source, variables) {
-    return source.replace(/%%%(.*?)%%%/g, function (match, varName) {
+// https://github.com/benjamingr/RegExp.escape/blob/master/polyfill.js
+function regExpEscape(s) {
+    return String(s).replace(/[\\^$*+?.()|[\]{}]/g, '\\$&');
+}
+
+function replacePlaceholder(source, variables, placeholderRegExp) {
+    return source.replace(placeholderRegExp, function (match, varName) {
         if (typeof variables[varName] === 'undefined') {
             throw new Error('enb-define: There is no value for ' + varName + ' placeholder');
         }
