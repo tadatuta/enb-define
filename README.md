@@ -27,9 +27,9 @@ $ npm install --save-dev enb-define
 module.exports = function(config) {
     config.nodes('*.bundles/*', function(nodeConfig) {
         nodeConfig.addTechs([
-            [require('enb-define'), {
+            [require('enb-define/techs/define'), {
                 target: '?.js',
-                sources: ['?.pre.js'],
+                source: '?.pre.js',
                 variables: {
                     basePath: '/'
                 },
