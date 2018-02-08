@@ -29,6 +29,15 @@ describe('define', function () {
         });
     });
 
+    it('must throw for undeclared placeholders', function () {
+        var bundle = { 'bundle.pre.js': "console.log('%%%blah%%%');" };
+
+        return build(bundle, {
+            source: '?.pre.js',
+            target: 'js'
+        }).should.be.rejectedWith('enb-define: There is no value for blah placeholder');
+    });
+
     it('must support custom placeholders', function () {
         var bundle = { 'bundle.pre.js': "console.log('___blah$$$');" },
             reference = "console.log('hello');";
