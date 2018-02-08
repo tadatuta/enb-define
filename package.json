@@ -31,7 +31,7 @@
     "jshint": "^2.8.0",
     "mocha": "^2.3.2",
     "mock-enb": "^0.3.0",
-    "mock-fs": "^3.5.0"
+    "mock-fs": "^4.4.2"
   },
   "scripts": {
     "test": "npm run lint && npm run unit",
