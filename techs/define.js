@@ -12,13 +12,13 @@ module.exports = buildFlow.create()
     .defineOption('placeholder', '%%%')
     .useSourceText('source')
     .builder(function (source) {
-        var logger = this.node.getLogger(),
+        var target = this._target,
+            logger = this.node.getLogger(),
             warn = function (msg) {
-                logger.warn(msg, 'define');
+                logger.logWarningAction(msg, target, 'define');
             },
             sourcemap = this._sourcemap,
             fileName = this._source,
-            target = this._target,
             variables = this._variables,
             placeholder = typeof this._placeholder === 'string' ?
                 { before: this._placeholder, after: this._placeholder } :
@@ -42,7 +42,7 @@ function replacePlaceholder(source, variables, placeholderRegExp, warn) {
     return source.replace(placeholderRegExp, function (match, varName) {
         if (typeof variables[varName] === 'undefined') {
             warn('There is no value for ' + varName + ' placeholder');
-            return; // Should we return here something?
+            return '';
         }
 
         return variables[varName];
