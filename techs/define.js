@@ -13,7 +13,7 @@ module.exports = buildFlow.create()
     .useSourceText('source')
     .builder(function (source) {
         var logger = this.node.getLogger(),
-            warn = function(msg) {
+            warn = function (msg) {
                 logger.warn(msg, 'define');
             },
             sourcemap = this._sourcemap,
