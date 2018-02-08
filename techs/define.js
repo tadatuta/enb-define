@@ -12,7 +12,11 @@ module.exports = buildFlow.create()
     .defineOption('placeholder', '%%%')
     .useSourceText('source')
     .builder(function (source) {
-        var sourcemap = this._sourcemap,
+        var logger = this.node.getLogger(),
+            warn = function(msg) {
+                logger.warn(msg, 'define');
+            },
+            sourcemap = this._sourcemap,
             fileName = this._source,
             target = this._target,
             variables = this._variables,
@@ -21,7 +25,7 @@ module.exports = buildFlow.create()
                 this._placeholder,
             placeholderRegExp = new RegExp(regExpEscape(placeholder.before) + '(.*?)' +
                 regExpEscape(placeholder.after), 'g'),
-            replacedSource = replacePlaceholder(source, variables, placeholderRegExp);
+            replacedSource = replacePlaceholder(source, variables, placeholderRegExp, warn);
 
         return sourcemap ?
             renderWithSourceMaps(fileName, replacedSource, target) :
@@ -34,10 +38,11 @@ function regExpEscape(s) {
     return String(s).replace(/[\\^$*+?.()|[\]{}]/g, '\\$&');
 }
 
-function replacePlaceholder(source, variables, placeholderRegExp) {
+function replacePlaceholder(source, variables, placeholderRegExp, warn) {
     return source.replace(placeholderRegExp, function (match, varName) {
         if (typeof variables[varName] === 'undefined') {
-            throw new Error('enb-define: There is no value for ' + varName + ' placeholder');
+            warn('There is no value for ' + varName + ' placeholder');
+            return; // Should we return here something?
         }
 
         return variables[varName];
