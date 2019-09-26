@@ -19,7 +19,7 @@
     "enb": ">= 0.15.0 <2.0.0"
   },
   "dependencies": {
-    "enb-source-map": "^1.8.0"
+    "enb-source-map": "^1.12.1"
   },
   "devDependencies": {
     "chai": "^3.2.0",
